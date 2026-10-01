@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>부산 상가 업종별 지도 | 159,689개 상가 검색</title>
+  <meta name="description" content="부산광역시 전역 159,689개 상가를 10대 업종별(음식, 소매, 수리·개인, 의료, 교육, 숙박 등)과 16개 구·군별로 검색하는 무료 반응형 지도 서비스입니다.">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <!-- Leaflet MarkerCluster CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Custom Style -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Desktop / Mobile Sidebar Panel -->
+    <aside id="sidebar" class="sidebar">
+      <header class="sidebar-header">
+        <div class="logo-area">
+          <div class="logo-icon">🏢</div>
+          <div>
+            <h1 class="logo-title">부산 상가 업종 지도</h1>
+            <p class="logo-sub">부산시 전역 159,689개 상가 데이터</p>
+          </div>
+        </div>
+        <button id="closeSidebarBtn" class="icon-btn mobile-only" aria-label="사이드바 닫기">✕</button>
+      </header>
+
+      <!-- Search & Filter Controls -->
+      <section class="filter-section">
+        <!-- Keyword Search -->
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="상호명, 업종(한식/카페/의원/미용 등), 주소..." autocomplete="off">
+          <button id="clearSearchBtn" class="clear-btn" style="display:none;" title="검색어 지우기">✕</button>
+        </div>
+
+        <!-- District & Geo Row -->
+        <div class="filter-row">
+          <div class="select-wrapper flex-1">
+            <select id="guSelect" aria-label="구/군 선택">
+              <option value="">부산 전체 (16개 구·군)</option>
+              <option value="부산진구">부산진구 (21,012)</option>
+              <option value="해운대구">해운대구 (17,753)</option>
+              <option value="동래구">동래구 (12,002)</option>
+              <option value="사하구">사하구 (10,862)</option>
+              <option value="금정구">금정구 (10,318)</option>
+              <option value="연제구">연제구 (10,309)</option>
+              <option value="수영구">수영구 (10,214)</option>
+              <option value="사상구">사상구 (9,599)</option>
+              <option value="남구">남구 (9,532)</option>
+              <option value="기장군">기장군 (8,745)</option>
+              <option value="북구">북구 (8,677)</option>
+              <option value="강서구">강서구 (8,157)</option>
+              <option value="중구">중구 (7,465)</option>
+              <option value="동구">동구 (6,930)</option>
+              <option value="영도구">영도구 (4,105)</option>
+              <option value="서구">서구 (4,009)</option>
+            </select>
+          </div>
+          <button id="geoBtn" class="btn btn-secondary geo-btn" title="내 위치 주변 상가 찾기">
+            <span class="geo-icon">📍</span> 내 위치
+          </button>
+        </div>
+
+        <!-- Middle Category Dropdown -->
+        <div class="select-wrapper">
+          <select id="jungSelect" aria-label="중분류 선택">
+            <option value="">중분류 전체 (75개 세부업종)</option>
+          </select>
+        </div>
+
+        <!-- Industry Large Category Grid / Chips -->
+        <div class="category-section">
+          <div class="category-header">
+            <span class="category-label">업종 대분류 선택:</span>
+            <button id="allCategoryBtn" class="category-all-btn active">전체보기 (15.9만)</button>
+          </div>
+          <div class="category-grid" id="categoryGrid">
+            <!-- Dynamically populated from JS metadata -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <span>검색 결과: <strong id="matchCount">159,689</strong>개</span>
+        <button id="resetFilterBtn" class="link-btn">필터 초기화</button>
+      </div>
+
+      <!-- Store List View -->
+      <div class="store-list" id="storeList">
+        <!-- Dynamically rendered cards -->
+      </div>
+    </aside>
+
+    <!-- Main Map View Area -->
+    <main class="map-container">
+      <!-- Mobile Top Bar -->
+      <div class="mobile-top-bar">
+        <div class="mobile-search-pill" id="mobileSearchTrigger">
+          <span class="search-icon">🔍</span>
+          <span class="mobile-search-placeholder" id="mobileSearchText">부산 상가 검색 및 업종 필터</span>
+        </div>
+        <button id="mobileGeoBtn" class="mobile-circle-btn" title="내 위치 찾기">📍</button>
+      </div>
+
+      <!-- Free Map Canvas -->
+      <div id="map"></div>
+
+      <!-- Floating Map Controls -->
+      <div class="map-floating-controls">
+        <button id="mapResetViewBtn" class="floating-btn" title="부산 전체보기">
+          <span>🗺️ 부산 전체</span>
+        </button>
+        <button id="toggleTileBtn" class="floating-btn" title="지도 스타일 변경">
+          <span>🎨 스타일 변경</span>
+        </button>
+      </div>
+
+      <!-- Mobile Bottom Sheet Toggle -->
+      <div id="mobileSheetHandle" class="mobile-sheet-handle">
+        <div class="sheet-indicator"></div>
+        <div class="sheet-title-bar">
+          <span class="sheet-title">🏢 상가 목록 (<strong id="mobileListCount">159,689</strong>개)</span>
+          <span class="sheet-chevron" id="sheetChevron">▲</span>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">주소가 복사되었습니다!</div>
+
+  <!-- Data & Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  
+  <!-- Busan All Commercial Stores Data (Offline / file:// compatible) -->
+  <script src="stores-data.js?v=1"></script>
+  <!-- Main Application Logic -->
+  <script src="app.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,820 @@
+/* =========================================================
+   부산 상가 업종 지도 (Busan Commercial Store Map)
+   모바일 & 데스크톱 반응형 스타일시트
+   ========================================================= */
+
+:root {
+  --primary: #2563EB;
+  --primary-hover: #1D4ED8;
+  --bg-main: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --border-color: #E2E8F0;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --sidebar-width: 440px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-main);
+  background-color: var(--bg-main);
+}
+
+#app {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* =========================================================
+   1. 사이드바 (Sidebar) - Desktop
+   ========================================================= */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: 380px;
+  height: 100%;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  font-size: 26px;
+  background: #EFF6FF;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+.logo-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--text-muted);
+  border-radius: 50%;
+}
+.icon-btn:hover {
+  background: #F1F5F9;
+  color: var(--text-main);
+}
+
+/* =========================================================
+   2. 필터 영역 (Filter Section)
+   ========================================================= */
+.filter-section {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 0.95rem;
+  opacity: 0.6;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px 36px 10px 36px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  outline: none;
+  background: #F8FAFC;
+  transition: all 0.2s ease;
+}
+
+.search-box input:focus {
+  border-color: var(--primary);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.clear-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 50%;
+}
+.clear-btn:hover {
+  color: var(--text-main);
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--text-main);
+  background: #F8FAFC;
+  cursor: pointer;
+  outline: none;
+  appearance: auto;
+}
+
+.select-wrapper select:focus {
+  border-color: var(--primary);
+  background: #FFFFFF;
+}
+
+.btn {
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-secondary {
+  background: #F1F5F9;
+  color: #334155;
+  border: 1px solid #CBD5E1;
+}
+
+.btn-secondary:hover {
+  background: #E2E8F0;
+  color: var(--text-main);
+}
+
+.geo-btn.active {
+  background: #EFF6FF;
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* =========================================================
+   업종 대분류 그리드 / 카드
+   ========================================================= */
+.category-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.category-all-btn {
+  background: #F1F5F9;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 3px 10px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.category-all-btn.active {
+  background: #1E293B;
+  color: #FFFFFF;
+  border-color: #1E293B;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.category-grid::-webkit-scrollbar {
+  width: 4px;
+}
+.category-grid::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 2px;
+}
+
+.cat-card {
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: #F8FAFC;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.cat-card:hover {
+  border-color: #94A3B8;
+  background: #FFFFFF;
+}
+
+.cat-card.active {
+  background: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  font-weight: 700;
+}
+
+.cat-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cat-icon {
+  font-size: 1.05rem;
+}
+
+.cat-name {
+  font-size: 0.82rem;
+  color: var(--text-main);
+}
+
+.cat-count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: #E2E8F0;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.cat-card.active .cat-count {
+  color: #FFFFFF;
+}
+
+/* =========================================================
+   3. 상태바 & 매장 리스트 (Store List)
+   ========================================================= */
+.status-bar {
+  padding: 10px 18px;
+  background: #F1F5F9;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-bar strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.link-btn:hover {
+  color: var(--primary);
+}
+
+.store-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #F8FAFC;
+}
+
+.store-list::-webkit-scrollbar {
+  width: 6px;
+}
+.store-list::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+
+.store-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.store-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.store-card.selected {
+  border-color: var(--primary);
+  background: #F0F7FF;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.category-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.cat-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+.jung-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #F1F5F9;
+  color: #475569;
+  border: 1px solid #E2E8F0;
+  white-space: nowrap;
+}
+
+.card-distance {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.card-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.card-branch {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+.card-so {
+  font-size: 0.78rem;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-addr {
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border-color);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.card-district-tag {
+  background: #F1F5F9;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   4. 지도 컨테이너 (Map Container)
+   ========================================================= */
+.map-container {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  background: #E5E7EB;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.map-floating-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.floating-btn {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-main);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+}
+
+.floating-btn:hover {
+  background: #F8FAFC;
+  transform: translateY(-1px);
+}
+
+/* 모바일 상단 바 & 바텀 시트 */
+.mobile-top-bar {
+  display: none;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 900;
+  gap: 8px;
+}
+
+.mobile-search-pill {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 30px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+}
+
+.mobile-search-placeholder {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobile-circle-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.mobile-sheet-handle {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+  padding: 10px 16px 14px 16px;
+  z-index: 950;
+  cursor: pointer;
+}
+
+.sheet-indicator {
+  width: 36px;
+  height: 4px;
+  background: #CBD5E1;
+  border-radius: 2px;
+  margin: 0 auto 8px auto;
+}
+
+.sheet-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.sheet-chevron {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* =========================================================
+   5. Leaflet 팝업 및 마커 핀
+   ========================================================= */
+.leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.popup-card {
+  padding: 16px;
+  width: 270px;
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.popup-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+
+.popup-sub {
+  font-size: 0.78rem;
+  color: #64748B;
+  margin-bottom: 8px;
+}
+
+.popup-addr {
+  font-size: 0.82rem;
+  color: #475569;
+  margin-bottom: 12px;
+  word-break: keep-all;
+}
+
+.popup-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.popup-btn {
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.popup-btn-kakao {
+  background: #FEE500;
+  color: #191919;
+}
+.popup-btn-naver {
+  background: #03C75A;
+  color: #FFFFFF;
+}
+
+.popup-copy-btn {
+  grid-column: span 2;
+  background: #F1F5F9;
+  color: #334155;
+  border: 1px solid #CBD5E1;
+  padding: 6px;
+  margin-top: 4px;
+}
+.popup-copy-btn:hover {
+  background: #E2E8F0;
+}
+
+/* 커스텀 마커 핀 */
+.custom-pin {
+  width: 28px;
+  height: 28px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.custom-pin-inner {
+  transform: rotate(45deg);
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* 토스트 메시지 */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(15, 23, 42, 0.9);
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  z-index: 2000;
+  pointer-events: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  opacity: 0;
+  box-shadow: var(--shadow-lg);
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* =========================================================
+   6. 모바일 반응형 미디어 쿼리
+   ========================================================= */
+@media (max-width: 900px) {
+  #app {
+    flex-direction: column;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-width: unset;
+    transform: translateY(100%);
+    z-index: 1200;
+  }
+
+  .sidebar.open {
+    transform: translateY(0);
+  }
+
+  .mobile-top-bar {
+    display: flex;
+  }
+
+  .mobile-sheet-handle {
+    display: block;
+  }
+
+  .map-floating-controls {
+    top: 68px;
+    right: 12px;
+  }
+}
